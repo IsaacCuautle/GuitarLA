@@ -1,14 +1,11 @@
 import Guitar from "./Components/guitar";
 import Header from "./Components/Header";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { db } from "./data/db";
 
 function App() {
 
-  // State
-  const [ auth, setAuth ] = useState([]);
-  const [ car, setCar ] = useState([]);
-  const [ total, setTotal ] = useState(0);
-  
+  const [data, setData] = useState(db);  
 
   return (
     <>
@@ -19,12 +16,19 @@ function App() {
         <h2 className="text-center">Nuestra Colección</h2>
 
         <div className="row mt-5">
-          <Guitar></Guitar>
-          <Guitar></Guitar>
-          <Guitar></Guitar>
-          <Guitar></Guitar>
-          <Guitar></Guitar>
-          <Guitar></Guitar>
+          {
+
+            // Itera sobre cada elemento de la DB
+            data.map( () => (  
+              
+              <Guitar
+
+                // Asigna el precio a cada elemento
+                price = {100}  
+              /> 
+            
+            ))
+          }
         </div>
 
       </main>
