@@ -5,7 +5,8 @@ import { db } from "./data/db";
 
 function App() {
 
-  const [data, setData] = useState(db);  
+  const [data, setData] = useState(db);
+  const [cart, setCart] = useState([]);
 
   return (
     <>
@@ -18,13 +19,13 @@ function App() {
         <div className="row mt-5">
           {
 
-            // Itera sobre cada elemento de la DB
-            data.map( () => (  
+            // Itera sobre cada objeto de la DB
+            data.map( (guitar) => (  
               
               <Guitar
-
-                // Asigna el precio a cada elemento
-                price = {100}  
+                key={guitar.id}
+                guitar = {guitar}
+                setCart = {setCart}
               /> 
             
             ))
