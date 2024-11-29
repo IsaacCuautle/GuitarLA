@@ -1,4 +1,4 @@
-export default function Guitar({guitar, setCart}) {
+export default function Guitar({guitar, addToCart}) {
   
   // Destructuring de guitar
   const { image, name, description, price } = guitar
@@ -15,7 +15,7 @@ export default function Guitar({guitar, setCart}) {
               <p className="fw-black text-primary fs-3">${price}</p>
               <button
                 //* Añadir productos al carrito
-                onClick = { () => setCart( prevCart => [...prevCart, guitar] ) }
+                onClick = { () => addToCart( guitar ) }
                 type="button"
                 className="btn btn-dark w-100"
               >Agregar al Carrito</button>

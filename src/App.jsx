@@ -8,10 +8,39 @@ function App() {
   const [data, setData] = useState(db);
   const [cart, setCart] = useState([]);
 
+  //* Añadir productos al carrito
+  function addToCart(item) {
+
+    // Comprueba si ya existe ese item en el carrito
+    const itemExist = cart.findIndex( guitar => guitar.id === item.id);
+
+    if ( itemExist < 0 )
+    {
+
+      // Agrega el item al carrito, si no existe en el carrito
+      item.quantity = 1;
+      setCart([...cart, item]);
+    
+    }else {
+    
+      // Incrementa la cantidad del item, si ya existe en el carrito
+      const updatedCart = [...cart];
+      updatedCart[itemExist].quantity++
+      setCart(updatedCart);
+
+    }
+    
+    console.log(cart);
+    
+
+  }
+
   return (
     <>
 
-      <Header></Header>
+      <Header
+        cart = { cart }
+      />
 
       <main className="container-xl mt-5">
         <h2 className="text-center">Nuestra Colección</h2>
@@ -26,6 +55,7 @@ function App() {
                 key={guitar.id}
                 guitar = {guitar}
                 setCart = {setCart}
+                addToCart = {addToCart}
               /> 
             
             ))
