@@ -29,17 +29,53 @@ function App() {
       setCart(updatedCart);
 
     }
-    
-    console.log(cart);
-    
 
   }
+
+  //* Eliminar productos del carrito
+  function removeFromCart(id) {
+
+    // Filtra las guitarras en el carrito cuyo id sea diferente al que se le pasa a la funcion
+    setCart( prevCart => prevCart.filter(guitar => guitar.id !== id) ) 
+  
+  }
+
+  //* Incrementa la cantidad de un producto
+  function increaseQuantity(id) {
+
+    // Crea una copia del carrito he itera sobre ella
+    const updatedCart = cart.map( item => {
+
+      // Si el item coincide con el id, incrementa la cantidad de ese item en 1
+      if(item.id === id && item.quantity < 5)
+      {
+
+        return{
+          ...item,
+          quantity: item.quantity + 1
+        }
+
+      }
+
+      // Mantiene los demas elementos
+      return item
+    })
+
+    // Setea el carrito
+    setCart(updatedCart);
+  
+  }
+
+
+  // TODO: CREAR FUNCION DECREMENTAR L.79
 
   return (
     <>
 
       <Header
         cart = { cart }
+        removeFromCart = { removeFromCart }
+        increaseQuantity = { increaseQuantity }
       />
 
       <main className="container-xl mt-5">
