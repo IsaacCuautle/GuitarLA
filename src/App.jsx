@@ -17,12 +17,17 @@ function App() {
     if ( itemExist < 0 )
     {
 
+      
+
       // Agrega el item al carrito, si no existe en el carrito
       item.quantity = 1;
       setCart([...cart, item]);
     
     }else {
     
+      // Limita la cantidad del item a añadir
+      if ( cart[itemExist].quantity >= 5) return
+
       // Incrementa la cantidad del item, si ya existe en el carrito
       const updatedCart = [...cart];
       updatedCart[itemExist].quantity++
@@ -67,7 +72,32 @@ function App() {
   }
 
 
-  // TODO: CREAR FUNCION DECREMENTAR L.79
+  //* Decrementa la cantidad de un producto
+  function decreaseQuantity(id) {
+
+    // Crea una copia del carrito he itera sobre ella
+    const updatedCart = cart.map( item => {
+
+      // Si el item coincide con el id, decrementa la cantidad de ese item en 1
+      if(item.id === id && item.quantity > 1)
+      {
+
+        return{
+          ...item,
+          quantity: item.quantity - 1
+        }
+
+      }
+
+      // Mantiene los demas elementos
+      return item
+    })
+
+    // Setea el carrito
+    setCart(updatedCart);
+  
+  }
+
 
   return (
     <>
@@ -76,6 +106,7 @@ function App() {
         cart = { cart }
         removeFromCart = { removeFromCart }
         increaseQuantity = { increaseQuantity }
+        decreaseQuantity= { decreaseQuantity }
       />
 
       <main className="container-xl mt-5">

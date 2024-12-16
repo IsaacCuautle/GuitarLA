@@ -1,6 +1,6 @@
 import { useMemo } from "react";
 
-export default function Header({ cart, removeFromCart, increaseQuantity }) {
+export default function Header({ cart, removeFromCart, increaseQuantity, decreaseQuantity }) {
 
     //* State Derivado
 
@@ -64,17 +64,22 @@ export default function Header({ cart, removeFromCart, increaseQuantity }) {
                                     ${guitar.price}
                                   </td>
                                   <td className="flex align-items-start gap-4">
+                                    
+                                    {/* Reducir cantidad de producto */}
                                     <button
                                       type="button"
                                       className="btn btn-dark"
+                                      onClick={ () => decreaseQuantity(guitar.id) }
                                     >
                                       -
                                     </button>
                                     {guitar.quantity}
+
+                                    {/* Aumentar cantidad de peroducto */}
                                     <button
                                       type="button"
                                       className="btn btn-dark"
-                                      onClick={() => increaseQuantity(guitar.id)}
+                                      onClick={() => increaseQuantity(guitar.id) }
                                     >
                                       +
                                     </button>
