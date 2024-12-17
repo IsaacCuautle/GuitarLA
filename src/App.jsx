@@ -3,11 +3,27 @@ import Header from "./Components/Header";
 import { useState, useEffect } from "react";
 import { db } from "./data/db";
 
+
 function App() {
 
-  const [data, setData] = useState(db);
-  const [cart, setCart] = useState([]);
+  //* Recupera el carrito de compras
+  const initialCart = () => {
+    const localStorageCart = localStorage.getItem('cart');
+    
+    // Comprueba si ya existe un carrito de compras
+    return localStorageCart ? JSON.parse(localStorageCart) : []
+  }
 
+  const [data] = useState( db );
+  const [cart, setCart] = useState( initialCart );
+
+  useEffect( () => {
+
+    // Mantiene los productos del carrito de compras
+    localStorage.setItem( 'cart', JSON.stringify(cart) );
+
+  }, [cart])
+  
   //* Añadir productos al carrito
   function addToCart(item) {
 
@@ -16,8 +32,6 @@ function App() {
 
     if ( itemExist < 0 )
     {
-
-      
 
       // Agrega el item al carrito, si no existe en el carrito
       item.quantity = 1;
@@ -34,6 +48,7 @@ function App() {
       setCart(updatedCart);
 
     }
+
 
   }
 
@@ -98,6 +113,15 @@ function App() {
   
   }
 
+  //* Limpia el carrito
+  function cleanCart() {
+    
+    setCart([]);
+
+  }
+
+  
+
 
   return (
     <>
@@ -106,7 +130,8 @@ function App() {
         cart = { cart }
         removeFromCart = { removeFromCart }
         increaseQuantity = { increaseQuantity }
-        decreaseQuantity= { decreaseQuantity }
+        decreaseQuantity = { decreaseQuantity }
+        cleanCart = { cleanCart }
       />
 
       <main className="container-xl mt-5">
