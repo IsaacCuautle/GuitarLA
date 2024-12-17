@@ -1,6 +1,8 @@
 # Guitar LA
 
-Guitar LA es una tienda virtual de guitarras que incluye un carrito de compras, creada con el framework de React y es el primer proyecto del curso **React y TypeScript - La Guía Completa**
+**Guitar LA** es una tienda virtual de guitarras desarrollada con React, diseñada para proporcionar una experiencia de compra en línea intuitiva y fácil de usar. Incluye un carrito de compras funcional que permite a los usuarios seleccionar, agregar y gestionar productos antes de completar la compra.
+
+Este proyecto es el primer desarrollo práctico del curso **React y TypeScript - La Guía Completa**. A lo largo de su creación, se implementaron diversas tecnologías y buenas prácticas para crear una aplicación robusta y escalable, usando componentes, hooks y TypeScript para un desarrollo más eficiente y seguro
 
 ## Imagenes
 <div
