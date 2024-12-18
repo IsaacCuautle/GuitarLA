@@ -1,130 +1,28 @@
 import Guitar from "./Components/guitar";
 import Header from "./Components/Header";
-import { useState, useEffect } from "react";
-import { db } from "./data/db";
+import { useCart } from "./hooks/useCart.js";
 
 
 function App() {
 
-  //* Recupera el carrito de compras
-  const initialCart = () => {
-    const localStorageCart = localStorage.getItem('cart');
-    
-    // Comprueba si ya existe un carrito de compras
-    return localStorageCart ? JSON.parse(localStorageCart) : []
-  }
-
-  const [data] = useState( db );
-  const [cart, setCart] = useState( initialCart );
-
-  useEffect( () => {
-
-    // Mantiene los productos del carrito de compras
-    localStorage.setItem( 'cart', JSON.stringify(cart) );
-
-  }, [cart])
-  
-  //* Añadir productos al carrito
-  function addToCart(item) {
-
-    // Comprueba si ya existe ese item en el carrito
-    const itemExist = cart.findIndex( guitar => guitar.id === item.id);
-
-    if ( itemExist < 0 )
-    {
-
-      // Agrega el item al carrito, si no existe en el carrito
-      item.quantity = 1;
-      setCart([...cart, item]);
-    
-    }else {
-    
-      // Limita la cantidad del item a añadir
-      if ( cart[itemExist].quantity >= 5) return
-
-      // Incrementa la cantidad del item, si ya existe en el carrito
-      const updatedCart = [...cart];
-      updatedCart[itemExist].quantity++
-      setCart(updatedCart);
-
-    }
-
-
-  }
-
-  //* Eliminar productos del carrito
-  function removeFromCart(id) {
-
-    // Filtra las guitarras en el carrito cuyo id sea diferente al que se le pasa a la funcion
-    setCart( prevCart => prevCart.filter(guitar => guitar.id !== id) ) 
-  
-  }
-
-  //* Incrementa la cantidad de un producto
-  function increaseQuantity(id) {
-
-    // Crea una copia del carrito he itera sobre ella
-    const updatedCart = cart.map( item => {
-
-      // Si el item coincide con el id, incrementa la cantidad de ese item en 1
-      if(item.id === id && item.quantity < 5)
-      {
-
-        return{
-          ...item,
-          quantity: item.quantity + 1
-        }
-
-      }
-
-      // Mantiene los demas elementos
-      return item
-    })
-
-    // Setea el carrito
-    setCart(updatedCart);
-  
-  }
-
-
-  //* Decrementa la cantidad de un producto
-  function decreaseQuantity(id) {
-
-    // Crea una copia del carrito he itera sobre ella
-    const updatedCart = cart.map( item => {
-
-      // Si el item coincide con el id, decrementa la cantidad de ese item en 1
-      if(item.id === id && item.quantity > 1)
-      {
-
-        return{
-          ...item,
-          quantity: item.quantity - 1
-        }
-
-      }
-
-      // Mantiene los demas elementos
-      return item
-    })
-
-    // Setea el carrito
-    setCart(updatedCart);
-  
-  }
-
-  //* Limpia el carrito
-  function cleanCart() {
-    
-    setCart([]);
-
-  }
-
-  
+  // Custom Hook del Carrito de compras
+  const { 
+    data,
+    cart,
+    addToCart,
+    removeFromCart,
+    increaseQuantity,
+    decreaseQuantity,
+    cleanCart,
+    isEmpty,
+    cartTotal
+   } = useCart();
 
 
   return (
     <>
+
+      {/* Props */}
 
       <Header
         cart = { cart }
@@ -132,7 +30,9 @@ function App() {
         increaseQuantity = { increaseQuantity }
         decreaseQuantity = { decreaseQuantity }
         cleanCart = { cleanCart }
-      />
+        isEmpty = { isEmpty }
+        cartTotal = { cartTotal }
+        />
 
       <main className="container-xl mt-5">
         <h2 className="text-center">Nuestra Colección</h2>
@@ -146,7 +46,6 @@ function App() {
               <Guitar
                 key={guitar.id}
                 guitar = {guitar}
-                setCart = {setCart}
                 addToCart = {addToCart}
               /> 
             
